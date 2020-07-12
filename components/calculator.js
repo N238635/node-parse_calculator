@@ -5,7 +5,14 @@ const operations = {
     '/': [1, (a, b) => { return a / b }],
 }
 
-module.exports = function solveEquation(str) {
+module.exports = {
+    solveEquation,
+    isPartOfNumber,
+    calculateWithPriorities,
+    getHighestPriorityOperation,
+};
+
+function solveEquation(str) {
     let operationsArray = [];
     let bracketCount = 0;
     let start = 0;

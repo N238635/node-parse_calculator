@@ -1,4 +1,4 @@
-const solveEquation = require('./components/calculator');
+const { solveEquation } = require('./components/calculator');
 var stdin = process.openStdin();
 
 promptMsg();
