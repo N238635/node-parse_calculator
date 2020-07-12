@@ -42,7 +42,7 @@ function solveEquation(str) {
             default:
                 // Записываем все что вне скобок в массив
                 if (bracketCount === 0) {
-                    if (!isNaN(str[i]) || str[i] === ".") {
+                    if (!isNaN(str[i]) || str[i] === '.') {
                         // Если часть числа, то собираем число в одну строку
                         number += str[i];
                     } else {
@@ -52,7 +52,7 @@ function solveEquation(str) {
                 break;
         }
         // Если следующее значение не часть числа, то записываем число в массив
-        if ((isNaN(str[i + 1]) || str[i + 1] === '.') && number !== "") {
+        if ((isNaN(str[i + 1]) && str[i + 1] !== '.') && number !== "") {
             operationsArray.push(Number(number));
             number = "";
         }
