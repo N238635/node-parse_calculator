@@ -21,7 +21,7 @@ module.exports = function solveEquation(str) {
                 bracketCount--;
                 if (bracketCount === 0) {
                     // Решаем выражение внутри скобок,записываем результат в массив
-                    let res = solveEquation(str.substr(start + 1, i - 1));
+                    let res = solveEquation(str.substring(start + 1, i));
                     operationsArray.push(res);
                 }
                 break;
@@ -33,7 +33,7 @@ module.exports = function solveEquation(str) {
                         number += str[i];
                     } else {
                         // Если перед минусом нет числа, то минус это часть отрицательного числа
-                        if (str[i] === '-' && !isPartOfNumber(str[i - 1])) {
+                        if (str[i] === '-' && !isPartOfNumber(str[i - 1]) && str[i - 1] !== ')') {
                             number += str[i];
                         } else {
                             operationsArray.push(str[i]);
@@ -59,7 +59,6 @@ function isPartOfNumber(char) {
 // Просчитываем операции в порядке приоритета
 function calculateWithPriorities(operationsArray) {
     while (operationsArray.length > 1) {
-        console.log(operationsArray);
         let HPO = getHighestPriorityOperation(operationsArray);
         // Выполняем операцию, заменив в массиве операцию и 2 числа на результат
         let result = HPO.funct(operationsArray[HPO.position - 1], operationsArray[HPO.position + 1]);

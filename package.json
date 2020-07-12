@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "env NODE_PATH=./ node index.js",
     "test": "mocha"
   },
   "author": "",
