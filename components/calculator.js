@@ -5,7 +5,7 @@ const operations = {
     '/': [1, (a, b) => { return a / b }],
 }
 
-module.export = function solveEquation(str) {
+module.exports = function solveEquation(str) {
     let operationsArray = [];
     let bracketCount = 0;
     let start = 0;
@@ -28,7 +28,7 @@ module.export = function solveEquation(str) {
             default:
                 // Записываем все что вне скобок в массив
                 if (bracketCount === 0) {
-                    if (!isNaN(str[i]) || str[i] === '.') {
+                    if (isPartOfNumber(str[i])) {
                         // Если часть числа, то собираем число в одну строку
                         number += str[i];
                     } else {
@@ -38,13 +38,17 @@ module.export = function solveEquation(str) {
                 break;
         }
         // Если следующее значение не часть числа, то записываем число в массив
-        if ((isNaN(str[i + 1]) && str[i + 1] !== '.') && number !== "") {
+        if (!isPartOfNumber(str[i + 1]) && number !== "") {
             operationsArray.push(Number(number));
             number = "";
         }
     }
     // Считаем операции из массива и возвращаем результат
     return calculateWithPriorities(operationsArray);
+}
+
+function isPartOfNumber(char) {
+    return !isNaN(Number(char)) || char === '.' || char === ',';
 }
 
 // Просчитываем операции в порядке приоритета
