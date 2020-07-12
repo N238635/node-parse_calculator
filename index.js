@@ -1,8 +1,6 @@
 const solveEquation = require('./components/calculator');
 var stdin = process.openStdin();
 
-console.log(isNaN(Number("d")));
-
 promptMsg();
 
 stdin.addListener("data", function (d) {
