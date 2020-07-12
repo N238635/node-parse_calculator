@@ -32,12 +32,17 @@ module.exports = function solveEquation(str) {
                         // Если часть числа, то собираем число в одну строку
                         number += str[i];
                     } else {
-                        operationsArray.push(str[i]);
+                        // Если перед минусом нет числа, то минус это часть отрицательного числа
+                        if (str[i] === '-' && !isPartOfNumber(str[i - 1])) {
+                            number += str[i];
+                        } else {
+                            operationsArray.push(str[i]);
+                        }
                     }
                 }
                 break;
         }
-        // Если следующее значение не часть числа, то записываем число в массив
+        // Если следующий символ не часть числа, то записываем число в массив
         if (!isPartOfNumber(str[i + 1]) && number !== "") {
             operationsArray.push(Number(number));
             number = "";
@@ -48,30 +53,32 @@ module.exports = function solveEquation(str) {
 }
 
 function isPartOfNumber(char) {
-    return !isNaN(Number(char)) || char === '.' || char === ',';
+    return !isNaN(Number(char)) || char === '.';
 }
 
 // Просчитываем операции в порядке приоритета
 function calculateWithPriorities(operationsArray) {
     while (operationsArray.length > 1) {
-        // Highest Priority Operation
-        let HPOperation = [];
-        for (let i = 0; i < operationsArray.length; i++) {
-            let current = operationsArray[i];
-            // Находим операцию с наивысшим приоритетом
-            if (typeof current !== "number" &&
-                operations[current] &&
-                (!HPOperation[0] || operations[current][0] > HPOperation[0])) {
-                HPOperation = operations[current];
-                HPOperation[2] = i;
-            }
-        }
-        // Выполняем операцию, заменив в массиве операцию на результат
-        let operation = HPOperation[1];
-        let position = HPOperation[2];
-        // Берем числа слева и с права (не проверяется на правильность!)
-        let result = operation(operationsArray[position - 1], operationsArray[position + 1]);
-        operationsArray.splice(position - 1, 3, result);
+        console.log(operationsArray);
+        let HPO = getHighestPriorityOperation(operationsArray);
+        // Выполняем операцию, заменив в массиве операцию и 2 числа на результат
+        let result = HPO.funct(operationsArray[HPO.position - 1], operationsArray[HPO.position + 1]);
+        operationsArray.splice(HPO.position - 1, 3, result);
     }
     return operationsArray[0];
+}
+
+function getHighestPriorityOperation(operationsArray) {
+    let HPO = [];
+    for (let i = 0; i < operationsArray.length; i++) {
+        let current = operationsArray[i];
+        // Находим операцию с наивысшим приоритетом
+        if (typeof current !== "number" &&
+            operations[current] &&
+            (typeof HPO[0] === "undefined" || operations[current][0] > HPO[0])) {
+            HPO = operations[current];
+            HPO[2] = i;
+        }
+    }
+    return { funct: HPO[1], position: HPO[2] }
 }
