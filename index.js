@@ -22,7 +22,6 @@ function promptMsg() {
 function solveEquation(str) {
     let operationsArray = [];
     let bracketCount = 0;
-    let i = 0;
     let start = 0;
     let number = "";
     for (let i = 0; i < str.length; i++) {
