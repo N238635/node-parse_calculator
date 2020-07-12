@@ -11,7 +11,6 @@ module.exports = function solveEquation(str) {
     let start = 0;
     let number = "";
     for (let i = 0; i < str.length; i++) {
-        // Считаем скобки
         switch (str[i]) {
             case "(":
                 if (bracketCount === 0) start = i;
@@ -26,7 +25,6 @@ module.exports = function solveEquation(str) {
                 }
                 break;
             default:
-                // Записываем все что вне скобок в массив
                 if (bracketCount === 0) {
                     if (isPartOfNumber(str[i])) {
                         // Если часть числа, то собираем число в одну строку
@@ -48,7 +46,6 @@ module.exports = function solveEquation(str) {
             number = "";
         }
     }
-    // Считаем операции из массива и возвращаем результат
     return calculateWithPriorities(operationsArray);
 }
 
